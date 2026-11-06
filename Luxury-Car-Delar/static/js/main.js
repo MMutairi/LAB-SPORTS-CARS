@@ -44,6 +44,7 @@ document.addEventListener("DOMContentLoaded", () => {
         updateThemeButton();
     });
 
+
     // Mobile Navigation
     menuToggle.addEventListener("click", () => {
         const isOpen = menuToggle.getAttribute("aria-expanded") === "true";
@@ -60,6 +61,86 @@ document.addEventListener("DOMContentLoaded", () => {
             mobileNav.hidden = true;
             menuToggle.setAttribute("aria-expanded", "false");
             menuToggle.querySelector("span").textContent = "menu";
+        });
+    });
+
+    // Scroll Reveal Animations
+    const sections = document.querySelectorAll(".reveal");
+    const reduceMotion = window.matchMedia(
+        "(prefers-reduced-motion: reduce)"
+    ).matches;
+
+    if ("IntersectionObserver" in window && !reduceMotion) {
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach((entry) => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add("is-visible");
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, {
+            threshold: 0.1
+        });
+
+        sections.forEach((section) => {
+            observer.observe(section);
+        });
+
+        document.documentElement.classList.add("has-scroll-reveal");
+    }
+
+    // Car Wishlist
+    const storageKey = "velare-wishlist";
+    let savedCars = [];
+
+    try {
+        const stored = JSON.parse(localStorage.getItem(storageKey));
+
+        if (Array.isArray(stored)) {
+            savedCars = stored;
+        }
+    } catch (error) {
+        savedCars = [];
+    }
+
+    const wishlist = new Set(savedCars);
+    const wishlistButtons = document.querySelectorAll("[data-wishlist]");
+
+    wishlistButtons.forEach((button) => {
+        const carSlug = button.dataset.wishlist;
+
+        function updateWishlistButton() {
+            const isSaved = wishlist.has(carSlug);
+
+            button.classList.toggle("is-active", isSaved);
+            button.setAttribute("aria-pressed", String(isSaved));
+            button.setAttribute(
+                "aria-label",
+                isSaved
+                    ? "Remove car from wishlist"
+                    : "Add car to wishlist"
+            );
+        }
+
+        updateWishlistButton();
+
+        button.addEventListener("click", () => {
+            if (wishlist.has(carSlug)) {
+                wishlist.delete(carSlug);
+            } else {
+                wishlist.add(carSlug);
+            }
+
+            try {
+                localStorage.setItem(
+                    storageKey,
+                    JSON.stringify([...wishlist])
+                );
+            } catch (error) {
+                // Continue without persistent storage.
+            }
+
+            updateWishlistButton();
         });
     });
 });
