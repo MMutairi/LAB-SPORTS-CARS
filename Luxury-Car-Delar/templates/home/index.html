@@ -9,8 +9,8 @@
 <!-- Hero Section -->
 <section class="lux-hero">
     <div class="lux-hero__media">
-        <img src="{% static 'images/hero-luxury.jpg' %}"
-             alt="Luxury car at a modern showroom"
+        <img src="{% static 'images/cars/rolls-royce-ghost/exterior/front.jpg' %}"
+             alt="Rolls-Royce Ghost front exterior view"
              fetchpriority="high">
     </div>
 
@@ -89,7 +89,7 @@
                class="lux-car-card__image">
 
                 <img src="{% static car.image %}"
-                     alt="{{ car.name }}"
+                     alt="{{ car.name }} front exterior view"
                      loading="lazy">
 
                 <span class="lux-car-card__year">
@@ -108,6 +108,7 @@
                     <button type="button"
                             class="lux-wishlist"
                             data-wishlist="{{ car.slug }}"
+                            data-wishlist-name="{{ car.name }}"
                             aria-label="Add {{ car.name }} to wishlist"
                             aria-pressed="false">
                         <span class="material-symbols-outlined">
@@ -143,8 +144,8 @@
 <section class="lux-experience container reveal">
 
     <div class="lux-experience__image">
-        <img src="{% static 'images/experience-luxury.jpg' %}"
-             alt="Luxury automotive craftsmanship"
+        <img src="{% static 'images/cars/rolls-royce-ghost/interior/rear-seats.jpg' %}"
+             alt="Rear passenger seats of the Rolls-Royce Ghost"
              loading="lazy">
     </div>
 
@@ -229,8 +230,8 @@
 <!-- Final CTA -->
 <section class="lux-cta container reveal">
 
-    <img src="{% static 'images/cta-luxury.jpg' %}"
-         alt="Luxury vehicle on a scenic road"
+    <img src="{% static 'images/cars/bentley-flying-spur/exterior/front.jpg' %}"
+         alt="Bentley Flying Spur front exterior view"
          loading="lazy">
 
     <div class="lux-cta__content">
